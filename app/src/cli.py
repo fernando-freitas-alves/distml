@@ -19,9 +19,9 @@ flags.DEFINE_string(
 )
 
 flags.DEFINE_string(
-    "model",
-    short_name="m",
-    help="Model name",
+    "neural_network",
+    short_name="nn",
+    help="Neural network model name",
     default="TestNet",
 )
 

@@ -1,10 +1,10 @@
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .model import Model
+from . import NeuralNetwork
 
 
-class TestNet(Model):
+class TestNet(NeuralNetwork):
     """ Network architecture. """
 
     def __init__(self):

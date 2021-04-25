@@ -5,16 +5,17 @@ from typing import List, Optional
 import torch
 import torch.distributed as dist
 import torch.optim as optim
-from app.dataset import Dataset
-from app.model import Model
-from app.utils.logger import getLogger
+from dataset import Dataset
+from neural_network import NeuralNetwork
 from torch.autograd import Variable
 from torch.nn import NLLLoss
 from torch.nn.functional import nll_loss
 from torch.optim.optimizer import Optimizer
+from utils.logger import getLogger
 
-from .dist_training import DEFAULT_NUM_EPOCHS, DistTraining
-from .support import Epoch, TrainingResults
+from . import DEFAULT_NUM_EPOCHS, DistTraining
+from .epoch import Epoch
+from .results import TrainingResults
 
 logger = getLogger(__name__)
 
@@ -28,7 +29,7 @@ class SyncedSGD(DistTraining):
         rank: int,
         world_size: int,
         dataset: Dataset,
-        neural_network: Model,
+        neural_network: NeuralNetwork,
         num_epochs: int = DEFAULT_NUM_EPOCHS,
         verbose: bool = False,
     ) -> TrainingResults:
@@ -66,7 +67,7 @@ class SyncedSGD(DistTraining):
     def __step(
         self,
         world_size: int,
-        neural_network: Model,
+        neural_network: NeuralNetwork,
         optimizer: Optimizer,
         data: Variable,
         target: Variable,
@@ -83,7 +84,7 @@ class SyncedSGD(DistTraining):
         return loss.item()
 
     @staticmethod
-    def __average_gradients(world_size: int, neural_network: Model) -> None:
+    def __average_gradients(world_size: int, neural_network: NeuralNetwork) -> None:
         for param in neural_network.parameters():
             dist.all_reduce(tensor=param.grad.data, op=dist.ReduceOp.SUM)
             param.grad.data /= world_size

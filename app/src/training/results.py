@@ -1,10 +1,10 @@
 from os import linesep, path
 from typing import List
 
-from app.utils.path import mkdir
 from pandas import DataFrame
+from utils.path import mkdir
 
-from . import Epoch
+from .epoch import Epoch
 
 
 class TrainingResults(object):

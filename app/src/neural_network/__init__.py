@@ -1,10 +1,10 @@
 import pickle
 from abc import ABC
 
-from app.utils.path import save_object
 from torch.nn import Module
+from utils.path import save_object
 
 
-class Model(ABC, Module):
+class NeuralNetwork(ABC, Module):
     def save(self, filepath: str) -> None:
         save_object(obj=self, filepath=filepath)

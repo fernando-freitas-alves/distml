@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from app.dataset import Dataset
-from app.model import Model
+from dataset import Dataset
+from neural_network import NeuralNetwork
 
-from .support import TrainingResults
+from .results import TrainingResults
 
 DEFAULT_NUM_EPOCHS = 10
 
@@ -16,8 +16,8 @@ class DistTraining(ABC):
         rank: int,
         world_size: int,
         dataset: Dataset,
-        neural_network: Model,
+        neural_network: NeuralNetwork,
         num_epochs: int = DEFAULT_NUM_EPOCHS,
         verbose: bool = False,
     ) -> TrainingResults:
-        pass
+        ...

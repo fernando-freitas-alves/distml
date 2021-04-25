@@ -21,4 +21,4 @@ class Epoch(object):
         return f"Epoch {self.num}, Rank {self.rank}: cost = {self.cost}"
 
     def save_csv(file):
-        pass
+        pass  # TODO: #6 (requires #4) save epoch if sharing issue between nodes is solved  # noqa: E501

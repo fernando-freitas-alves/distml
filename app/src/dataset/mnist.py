@@ -2,15 +2,17 @@ from typing import Optional
 
 from torchvision import datasets, transforms
 
-from .dataset import DEFAULT_PATH, Dataset
+from . import DEFAULT_PATH, Dataset
 
 
 class MNIST(Dataset):
+    path: str
+
     def __init__(
         self,
         num_partitions: int,
         batch_size: Optional[int] = None,
-        path: Optional[str] = DEFAULT_PATH,
+        path: str = DEFAULT_PATH,
     ) -> None:
         transform = transforms.Compose(
             (
@@ -21,4 +23,4 @@ class MNIST(Dataset):
         base_dataset = datasets.MNIST(
             path, train=True, download=True, transform=transform
         )
-        super().__init__(num_partitions, batch_size, path, base_dataset)
+        super().__init__(num_partitions, batch_size, base_dataset)

@@ -4,14 +4,14 @@ from typing import Dict, List, Optional
 import torch.distributed as dist
 from torch.multiprocessing import Manager, Process
 
-from app.dataset import Dataset
-from app.model import Model
-from app.training import DistTraining
-from app.training.support import TrainingResults
-from app.utils.path import join_paths
+from dataset import Dataset
+from neural_network import NeuralNetwork
+from training import DistTraining
+from training.results import TrainingResults
+from utils.path import join_paths
 
 OUTPUT_FILENAMES = {
-    "neural_network": "trained_model.pkl",
+    "neural_network": "trained_model.pt",
     "training_results": "training_results.csv",
 }
 
@@ -24,7 +24,7 @@ world_results: Dict[int, TrainingResults] = {}
 class DistML:
     world_size: int
     dataset: Dataset
-    neural_network: Model
+    neural_network: NeuralNetwork
     training: DistTraining
     num_epochs: int
     output_folder: Optional[str]
@@ -36,7 +36,7 @@ class DistML:
         self,
         world_size: int,
         dataset: Dataset,
-        neural_network: Model,
+        neural_network: NeuralNetwork,
         training: DistTraining,
         num_epochs: int,
         verbose: bool = False,
@@ -78,7 +78,7 @@ class DistML:
     def __combine_results(
         self, world_results: Dict[int, TrainingResults]
     ) -> TrainingResults:
-        # FIXME: #4 world_results is not being shared among the workers
+        # FIXME: #4 world_results is not being shared among the workers, so I cannot be combined into a single output  # noqa: E501
         for rank, training_results in world_results.items():
             print(f"Rank {rank}: {training_results}")
 
@@ -103,7 +103,7 @@ def process_exec(
     rank: int,
     world_size: int,
     dataset: Dataset,
-    neural_network: Model,
+    neural_network: NeuralNetwork,
     training: DistTraining,
     num_epochs: int,
     backend: str,
