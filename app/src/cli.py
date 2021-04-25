@@ -1,8 +1,11 @@
 from os import linesep
 
+import absl.logging
 from absl import flags
 from absl.app import run
 from absl.flags import FLAGS
+
+from utils.logger import logging
 
 flags.DEFINE_integer(
     "world_size",
@@ -53,6 +56,10 @@ flags.DEFINE_string(
     help="Output folder path where the training results will be saved",
     default="output",
 )
+
+
+def remove_absl_handler():
+    logging.root.removeHandler(absl.logging._absl_handler)
 
 
 def title(**kwargs) -> str:

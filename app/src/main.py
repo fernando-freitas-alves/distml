@@ -54,6 +54,8 @@ def main(
 
 
 def cli_entry_point(*args):
+    cli.remove_absl_handler()
+
     kwargs = {
         "world_size": cli.FLAGS.world_size,
         "dataset_class": datasets.get(cli.FLAGS.dataset),
@@ -63,9 +65,8 @@ def cli_entry_point(*args):
         "verbose": cli.FLAGS.verbose,
         "output_folder": cli.FLAGS.output,
     }
-
     title = cli.title(**kwargs)
-    # FIXME: #5 logger printing on stdout, but it should follow config
+
     logger.info(title)
     if kwargs["verbose"]:
         print(title)

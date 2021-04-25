@@ -35,5 +35,4 @@ logging.basicConfig(
     level=logging.DEBUG,
 )
 
-
 logging.root.handlers[0].setFormatter(CsvFormatter())
