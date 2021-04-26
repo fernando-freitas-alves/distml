@@ -1,6 +1,4 @@
 from math import ceil
-from os import path
-from typing import List, Optional
 
 import torch
 import torch.distributed as dist
@@ -8,10 +6,9 @@ import torch.optim as optim
 from dataset import Dataset
 from neural_network import NeuralNetwork
 from torch.autograd import Variable
-from torch.nn import NLLLoss
 from torch.nn.functional import nll_loss
 from torch.optim.optimizer import Optimizer
-from utils.logger import getLogger
+from utils.logging import getLogger
 
 from . import DEFAULT_NUM_EPOCHS, DistTraining
 from .epoch import Epoch
@@ -36,7 +33,7 @@ class SyncedSGD(DistTraining):
         torch.manual_seed(1234)
         optimizer = optim.SGD(neural_network.parameters(), lr=0.01, momentum=0.5)
 
-        train_set = dataset.train_set(partition=rank)
+        train_set = dataset.get_train_set(partition=rank)
         num_batches = ceil(
             len(train_set.dataset)  # type: ignore[arg-type]
             / float(train_set.batch_size or 1)

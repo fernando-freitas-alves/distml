@@ -1,4 +1,4 @@
-from os import linesep, path
+from os import linesep
 from typing import List
 
 from pandas import DataFrame

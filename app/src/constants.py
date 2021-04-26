@@ -1,0 +1,29 @@
+from logging import DEBUG
+
+UNDEFINED_NODE_ID = None
+MASTER_NODE_ID = 0
+
+DEFAULT_NUM_NODES = 1
+DEFAULT_WORKERS_PER_NODE = 1
+
+DEFAULT_MASTER_ADDR = "127.0.0.1"
+DEFAULT_MASTER_PORT = "29500"
+
+DEFAULT_DATASET = "MNIST"
+DEFAULT_NEURAL_NETWORK = "TestNet"
+DEFAULT_TRAINING = "SyncedSGD"
+
+DEFAULT_EPOCHS = 2
+
+DEFAULT_VERBOSE = False
+DEFAULT_LOGGING_LEVEL = DEBUG
+
+DEFAULT_DATASET_FOLDER = "data"
+DEFAULT_OUTPUT = "output"
+
+LOGGING_FILENAME = "main.log"
+
+OUTPUT_FILENAMES = {
+    "neural_network": "trained_model.pt",
+    "training_results": "training_results.csv",
+}

@@ -1,6 +1,6 @@
 ### app
-data/*
-output/*
+app/data/*
+app/output/*
 
 ### macOS
 # General
@@ -177,4 +177,3 @@ dmypy.json
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
-

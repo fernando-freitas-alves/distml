@@ -1,0 +1,46 @@
+version: "3.4"
+
+services:
+  mpi_ml:
+    image: mpi_ml
+    container_name: mpi_ml_master
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    env_file:
+      - .env
+    environment:
+      NODE_ID: 0
+    volumes:
+      - ./app:/app
+    networks:
+      - default
+    ports:
+      - "$MASTER_PORT:$MASTER_PORT"
+
+  worker:
+    image: mpi_ml
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    env_file:
+      - .env
+    environment:
+      NODE_ID: 1
+      MASTER_ADDR: mpi_ml_master
+    # TODO: #9 find out how to automatically set the NODE_ID with the usage of replicas
+    # deploy:
+    #   mode: replicated
+    #   replicas: 1
+    volumes:
+      - ./app:/app
+    networks:
+      - default
+    depends_on:
+      - mpi_ml_master
+    command: >-
+      ./scripts/wait-for-it.sh mpi_ml_master:$MASTER_PORT -t 60 -s --
+      scripts/start.sh
+
+networks:
+  default:

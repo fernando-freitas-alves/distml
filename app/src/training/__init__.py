@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import Optional
 
 from dataset import Dataset
 from neural_network import NeuralNetwork

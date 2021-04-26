@@ -1,0 +1,25 @@
+version: "3.4"
+
+services:
+  mpi_ml:
+    image: mpi_ml
+    container_name: mpi_ml_master_debug
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    env_file:
+      - .env
+    environment:
+      NODE_ID: 0
+    volumes:
+      - ./app:/app
+    networks:
+      - default
+    ports:
+      - "$MASTER_PORT:$MASTER_PORT"
+      - 5678:5678
+    command: >-
+      bash -c "
+        pip install debugpy -t /tmp && \
+        python /tmp/debugpy --wait-for-client --listen 0.0.0.0:5678 src/main.py
+      "
